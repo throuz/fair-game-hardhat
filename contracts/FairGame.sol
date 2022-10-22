@@ -4,8 +4,8 @@ pragma solidity ^0.8.17;
 
 contract FairGame {
     address payable public owner;
-    uint256 seed;
-    mapping(address => uint256) public users;
+    uint seed;
+    mapping(address => uint) public users;
 
     constructor() payable {
         owner = payable(msg.sender);
@@ -16,7 +16,7 @@ contract FairGame {
         users[msg.sender] += msg.value;
     }
 
-    function bet(uint256 amount) public {
+    function bet(uint amount) public {
         require(amount < users[msg.sender], "Please enter a valid bet amount.");
         seed = (block.difficulty + block.timestamp + seed) % 100;
         if (seed > 50) {
@@ -26,7 +26,45 @@ contract FairGame {
         }
     }
 
-    function withdrawal(uint256 amount) public {
+    function betByMartingale(uint times, uint amount) public {
+        require(amount < users[msg.sender], "Please enter a valid bet amount.");
+        uint nextAmount = amount;
+        for (uint i = 0; i < times; i++) {
+            require(
+                nextAmount < users[msg.sender],
+                "Insufficient balance, please deposit."
+            );
+            seed = (block.difficulty + block.timestamp + seed) % 100;
+            if (seed > 50) {
+                users[msg.sender] += nextAmount;
+                nextAmount = amount;
+            } else {
+                users[msg.sender] -= nextAmount;
+                nextAmount *= 2;
+            }
+        }
+    }
+
+    function betByAntiMartingale(uint times, uint amount) public {
+        require(amount < users[msg.sender], "Please enter a valid bet amount.");
+        uint nextAmount = amount;
+        for (uint i = 0; i < times; i++) {
+            require(
+                nextAmount < users[msg.sender],
+                "Insufficient balance, please deposit."
+            );
+            seed = (block.difficulty + block.timestamp + seed) % 100;
+            if (seed > 50) {
+                users[msg.sender] += nextAmount;
+                nextAmount *= 2;
+            } else {
+                users[msg.sender] -= nextAmount;
+                nextAmount = amount;
+            }
+        }
+    }
+
+    function withdrawal(uint amount) public {
         require(
             amount <= users[msg.sender],
             "Please enter a valid withdrawal amount."

@@ -1,8 +1,8 @@
 const main = async () => {
-  const FairGameFactory = await ethers.getContractFactory("FairGame");
-  const FairGameContract = await FairGameFactory.deploy();
-  await FairGameContract.deployed();
-  console.log(`FairGame deployed to ${FairGameContract.address}`);
+  const contractFactory = await ethers.getContractFactory("FairGame");
+  const contract = await contractFactory.deploy();
+  await contract.deployed();
+  console.log(`FairGame deployed to ${contract.address}`);
 };
 
 main().catch((error) => {
