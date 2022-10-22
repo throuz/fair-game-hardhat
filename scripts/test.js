@@ -12,7 +12,7 @@ const main = async () => {
 
   await contract.betByAntiMartingale(1000, ethers.utils.parseEther("1"));
 
-  await contract.withdrawal(ethers.utils.parseEther("10"));
+  await contract.withdraw(ethers.utils.parseEther("10"));
 
   const [owner] = await ethers.getSigners();
   const ownerBalanceInContract = await contract.users(owner.address);

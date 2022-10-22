@@ -64,10 +64,10 @@ contract FairGame {
         }
     }
 
-    function withdrawal(uint amount) public {
+    function withdraw(uint amount) public {
         require(
             amount <= users[msg.sender],
-            "Please enter a valid withdrawal amount."
+            "Please enter a valid withdraw amount."
         );
         users[msg.sender] -= amount;
         (bool success, ) = (msg.sender).call{value: amount}("");
