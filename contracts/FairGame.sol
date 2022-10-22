@@ -7,6 +7,8 @@ contract FairGame {
     uint seed;
     mapping(address => uint) public users;
 
+    event BetResult(uint seed, uint amount, uint when);
+
     constructor() payable {
         owner = payable(msg.sender);
         seed = (block.timestamp + block.difficulty) % 100;
@@ -24,6 +26,7 @@ contract FairGame {
         } else {
             users[msg.sender] -= amount;
         }
+        emit BetResult(seed, amount, block.timestamp);
     }
 
     function betByMartingale(uint times, uint amount) public {
@@ -42,6 +45,7 @@ contract FairGame {
                 users[msg.sender] -= nextAmount;
                 nextAmount *= 2;
             }
+            emit BetResult(seed, amount, block.timestamp);
         }
     }
 
@@ -61,6 +65,7 @@ contract FairGame {
                 users[msg.sender] -= nextAmount;
                 nextAmount = amount;
             }
+            emit BetResult(seed, amount, block.timestamp);
         }
     }
 
