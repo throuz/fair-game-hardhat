@@ -2,6 +2,7 @@
 
 pragma solidity ^0.8.17;
 
+// Author: throuz
 contract FairGame {
     address payable public owner;
     uint seed;
