@@ -8,10 +8,6 @@ const main = async () => {
 
   await contract.bet(ethers.utils.parseEther("1"));
 
-  await contract.betByMartingale(1000, ethers.utils.parseEther("1"));
-
-  await contract.betByAntiMartingale(1000, ethers.utils.parseEther("1"));
-
   await contract.withdraw(ethers.utils.parseEther("10"));
 
   const [owner] = await ethers.getSigners();
