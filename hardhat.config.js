@@ -1,20 +1,25 @@
 require("@nomicfoundation/hardhat-toolbox");
 
-const ALCHEMY_API_KEY = "Q623AMOHOjiyMd1Um8w2OViYR2MgwOeK";
-
-const GOERLI_PRIVATE_KEY =
-  "e67f6c1d4973551eaa6983978c5a6741804e7c698d30eb09d83dce8e08345bd7";
+const { privateKey, bscscanApiKey } = require("./secrets.json");
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.17",
   etherscan: {
-    apiKey: "8UE67KHMEZDBM4KC6PEBV3CAH1YIN4ABEB",
+    apiKey: bscscanApiKey,
   },
   networks: {
-    goerli: {
-      url: `https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
-      accounts: [GOERLI_PRIVATE_KEY],
+    testnet: {
+      url: "https://data-seed-prebsc-1-s1.binance.org:8545",
+      chainId: 97,
+      gasPrice: 20000000000,
+      accounts: [privateKey],
+    },
+    mainnet: {
+      url: "https://bsc-dataseed1.binance.org",
+      chainId: 56,
+      gasPrice: 20000000000,
+      accounts: [privateKey],
     },
   },
 };
